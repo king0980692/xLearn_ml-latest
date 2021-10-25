@@ -1,0 +1,40 @@
+{
+    "train": {
+        "input": "/tmp2/lychang/ml-latest/ml_train.csv",
+        "output": "/tmp2/lychang/ml-latest/train_dir/train.txt",
+        "cached": true,
+        "seperator": ",",
+        "header": false,
+        "target_columns": [
+            {
+                "index": 0,
+                "type": "category"
+            },
+            {
+                "index": 1,
+                "type": "category"
+            },
+            {
+                "index": 2,
+                "type": "truth"
+            }
+        ]
+    },
+    "test": {
+        "input": "/tmp2/lychang/ml-latest/ml_test.csv",
+        "output": "/tmp2/lychang/ml-latest/test_dir/test.txt",
+        "cached": true,
+        "seperator": ",",
+        "header": false,
+        "target_columns": [
+            {
+                "index": 0,
+                "type": "category"
+            },
+            {
+                "index": 1,
+                "type": "category"
+            }
+        ]
+    }
+}
