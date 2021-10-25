@@ -2,16 +2,24 @@ from tqdm import tqdm
 import gc
 import mmap
 import pickle
+import argparse
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--score_file", help="the FM prediction score file")
+parser.add_argument("--truth_file", help="the truth file")
+args = parser.parse_args()
+
 user_pred_dict = {}
 last_user = ""
 
 ## Reading score file
-with open("/tmp2/lychang/ml-latest/exp/output.txt",'r') as o:   
+with open(args.score_file,'r') as o:   
     first_flag = True
-    #total_len = buf_count_newlines_gen("../test_dir/test.txt")
+    #total_len = buf_count_newlines_gen(args.truth_file)
     total_len = 7661096275
     idx = 0
-    with open("/tmp2/lychang/ml-latest/exp/test_dir/test.txt", "r+b") as f:
+    with open(args.truth_file, "r+b") as f:
         map_file = mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ)
         pbar = tqdm(iter(map_file.readline, b""),total=total_len)
         for line in pbar:
