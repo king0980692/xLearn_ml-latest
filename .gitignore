@@ -1,6 +1,5 @@
 sub_data/
 ori_data/
-exp/
 *.pkl
 *.ipynb_checkpoints
 
