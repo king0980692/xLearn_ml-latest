@@ -29,7 +29,7 @@ with open(args.score_file,'r') as o:
             #    break
 
             line = line.decode()
-            _, user,item = line.rstrip().split()
+            user,item = line.rstrip().split()
 
             user = user.split(':')[0]
             item = item.split(':')[0]
