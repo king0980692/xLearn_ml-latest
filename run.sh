@@ -1,3 +1,7 @@
+mkidr ./data
+wget https://files.grouplens.org/datasets/movielens/ml-100k.zip -P ./data
+unzip ./data/ml-100k.zip -d ./data
+
 python3 ./encoderder/encoderder.py -c ./test.json
 
 python3 train_predict.py
