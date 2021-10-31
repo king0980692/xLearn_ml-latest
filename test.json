@@ -1,18 +1,19 @@
 {
     "train": {
-        "input": "/tmp2/lychang/ml-latest/sub_data/ml_train.csv",
-        "output": "/tmp2/lychang/ml-latest/exp/train_dir/train.txt",
+        "input": "./data/ml-100k/ua.base",
+        "output": "./exp/ml.train",
         "cached": true,
-        "seperator": ",",
+        "seperator": "\t",
         "header": false,
+        "sparse": false,
         "target_columns": [
             {
                 "index": 0,
-                "type": "category"
+                "type": "cat"
             },
             {
                 "index": 1,
-                "type": "category"
+                "type": "cat"
             },
             {
                 "index": 2,
@@ -21,19 +22,24 @@
         ]
     },
     "test": {
-        "input": "/tmp2/lychang/ml-latest/sub_data/ml_test.csv",
-        "output": "/tmp2/lychang/ml-latest/exp/test_dir/test.txt",
+        "input": "./data/ml-100k/ua.test",
+        "output": "./exp/ml.test",
         "cached": true,
-        "seperator": ",",
+        "seperator": "\t",
         "header": false,
+        "sparse": false,
         "target_columns": [
             {
                 "index": 0,
-                "type": "category"
+                "type": "cat"
             },
             {
                 "index": 1,
-                "type": "category"
+                "type": "cat"
+            },
+            {
+                "index": 2,
+                "type": "truth"
             }
         ]
     }

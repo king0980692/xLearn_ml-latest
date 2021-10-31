@@ -14,31 +14,28 @@ user_pred_dict = {}
 last_user = ""
 
 ## Reading score file
-with open(args.score_file,'r') as o:   
+with open(args.score_file,'r') as o:
     first_flag = True
-    #total_len = buf_count_newlines_gen(args.truth_file)
-    total_len = 7642697175
-    total_len = 242049
     idx = 0
     with open(args.truth_file, "r+b") as f:
         map_file = mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ)
-        pbar = tqdm(total=total_len)
+        #pbar = tqdm(total=total_len)
         for line in iter(map_file.readline, b""):
             score = o.readline().rstrip()
             idx += 1
-            if float(score) < 4:
-                continue
+            #if float(score) < 4:
+            #    continue
             #if idx == 10:
             #    break
 
-            line = line.decode()    
+            line = line.decode()
             user,item = line.rstrip().split(" ")
             user = user.split(':')[0]
             item = item.split(':')[0]
             #print(user,item)
-            
+
             if first_flag:
-                last_user = user 
+                last_user = user
                 first_flag = False
             # change user
             if user != last_user:
@@ -46,21 +43,18 @@ with open(args.score_file,'r') as o:
                 user_pred_dict[last_user] = user_pred_dict[last_user][:10]
                 gc.collect()
                 last_user = user
-                print(f"{user} done at line:{idx} !!")
-                pbar.update(1)
-                with open("./user_pred_dict.pkl",'wb') as p:
-                    pickle.dump(user_pred_dict,p)        
+                #pbar.update(1)
 
             if user not in user_pred_dict:
-                user_pred_dict[user] = [] 
+                user_pred_dict[user] = []
             user_pred_dict[user].append((item,score))
 
 
-# the last user 
+# the last user
 user_pred_dict[user].sort(key=lambda x:x[1],reverse=True)
 user_pred_dict[user] = user_pred_dict[last_user][:10]
 
 
-
-
+with open("./result/user_pred_dict.pkl",'wb') as p:
+    pickle.dump(user_pred_dict,p)
 
