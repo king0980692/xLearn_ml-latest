@@ -1,9 +1,15 @@
 import xlearn as xl
 import argparse
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--train", help="training file")
+parser.add_argument("--test", help="testing file")
+parser.add_argument("--output", help="output file")
+args = parser.parse_args()
+
 # Training task
 fm_model = xl.create_fm()  # Use factorization machine
-fm_model.setTrain("./exp/ml.train")    # Training data
+fm_model.setTrain(args.train)    # Training data
 
 # param:
 #  0. regression task
@@ -18,8 +24,8 @@ param = {'task':'reg', 'lr':0.2,
 fm_model.fit(param, './exp/model.out')
 
 # Prediction task
-fm_model.setTest("./exp/ml.test.all_pair")  # Test data
+fm_model.setTest(args.test)  # Test data
 
 # Start to predict
 # The output result will be stored in output.txt
-fm_model.predict("./exp/model.out", "./result/output.txt")
+fm_model.predict("./exp/model.out",args.output)

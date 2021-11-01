@@ -1,15 +1,37 @@
 import json
 from datetime import datetime
 from tqdm import tqdm
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--input", help="the based dataset which will be splited")
+parser.add_argument("--sep", help="the seperator")
+parser.add_argument("--header",default=False ,help="header or not")
+args = parser.parse_args()
+
+
+time_list = []
+with open(args.input, 'r') as f:
+    if args.header:
+        next(f)
+    for line in tqdm(f):
+        uid, iid, rate, time = line.rstrip('\n').split(args.sep)
+        time_list.append(int(time))
+
+time_list.sort()
+cut_index = int(len(time_list)*0.8)
+
+time_cut = time_list[cut_index]
 
 train_edges, test_edges = [], []
 train_all_edges, test_all_edges = [], []
-#time_cut = 1514736000
-time_cut = 1527811200
-with open('data/ml-latest/ratings.csv', 'r') as f:
-    next(f)
+
+with open(args.input, 'r') as f:
+    if args.header:
+        next(f)
     for line in tqdm(f):
-        uid, iid, rate, time = line.rstrip('\n').split(',')
+        uid, iid, rate, time = line.rstrip('\n').split(args.sep)
+
         if int(time) < time_cut:
             train_all_edges.append(f"u{uid}\t{iid}\t{rate}")
             if float(rate) > 3.:

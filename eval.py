@@ -1,5 +1,11 @@
 import pickle
 import numpy as np
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--predict", help="the predict pickle file")
+parser.add_argument("--truth", help="the truth file")
+args = parser.parse_args()
 
 def apk(actual, predicted, k=10):
 
@@ -24,7 +30,7 @@ def mapk(actual, predicted, k=10):
     return np.mean([apk(a,p,k) for a,p in zip(actual, predicted)])
 
 
-with open("./result/user_pred_dict.pkl",'rb') as p:
+with open(args.predict,'rb') as p:
     tmp_user_pred =  pickle.load(p)
 
 user_pred = {}
@@ -35,8 +41,9 @@ for user in tmp_user_pred:
             user_pred[user] = []
         user_pred[user].append(item)
 
+
 user_actual = {}
-with open("./exp/ml.test",'r') as f:
+with open(args.truth,'r') as f:
     for line in f.readlines():
         rating, uid, iid = line.rstrip().split()
         uid = uid.split(":")[0]
