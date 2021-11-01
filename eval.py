@@ -10,36 +10,6 @@ args = parser.parse_args()
 
 
 
-def find_dcg(element_list):
-    """
-    Discounted Cumulative Gain (DCG)
-    The definition of DCG can be found in this paper:
-        Azzah Al-Maskari, Mark Sanderson, and Paul Clough. 2007.
-        "The relationship between IR effectiveness measures and user satisfaction."
-    Parameters:
-        element_list - a list of ranks Ex: [5,4,2,2,1]
-    Returns:
-        score
-    """
-    score = 0.0
-    for order, rank in enumerate(element_list):
-        score += float(rank)/math.log((order+2))
-    return score
-
-
-def ndcg(reference, hypothesis):
-    """
-    Normalized Discounted Cumulative Gain (nDCG)
-    Normalized version of DCG:
-        nDCG = DCG(hypothesis)/DCG(reference)
-    Parameters:
-        reference   - a gold standard (perfect) ordering Ex: [5,4,3,2,1]
-        hypothesis  - a proposed ordering Ex: [5,2,2,3,1]
-    Returns:
-        ndcg_score  - normalized score
-    """
-
-    return find_dcg(hypothesis)/find_dcg(reference)
 def mapk(actual, predicted, k=10):
     def apk(actual, predicted, k=10):
 
@@ -62,47 +32,21 @@ def mapk(actual, predicted, k=10):
 
     return np.mean([apk(a,p,k) for a,p in zip(actual, predicted)])
 
-def precision(actual: List[list], predicted: List[list]) -> int:
-    """
-    Computes the precision of each user's list of recommendations, and averages precision over all users.
-    ----------
-    actual : a list of lists
-        Actual items to be predicted
-        example: [['A', 'B', 'X'], ['A', 'B', 'Y']]
-    predicted : a list of lists
-        Ordered predictions
-        example: [['X', 'Y', 'Z'], ['X', 'Y', 'Z']]
-    Returns:
-    -------
-        precision: int
-    """
-    def calc_precision(actual,predicted):
-        prec = [value for value in predicted if value in actual]
-        prec = np.round(float(len(prec)) / float(len(predicted)), 4)
-        return prec
-
-    precision = np.mean(list(map(calc_precision, predicted, actual)))
-    return precision
 
 
-def recall(actual: List[list], predicted: List[list]) -> int:
-    """
-    Computes the recall of each user's list of recommendations, and averages precision over all users.
-    ----------
-    actual : a list of lists
-        Actual items to be predicted
-        example: [['A', 'B', 'X'], ['A', 'B', 'Y']]
-    predicted : a list of lists
-        Ordered predictions
-        example: [['X', 'Y', 'Z'], ['X', 'Y', 'Z']]
-    Returns:
-    -------
-        recall: int
-    """
+def recall(actual, predicted, k):
     def calc_recall(predicted, actual):
-        reca = [value for value in predicted if value in actual]
-        reca = np.round(float(len(reca)) / float(len(actual)), 4)
-        return reca
+        score = 0.0
+        num_hits = 0.0
+
+        for i,p in enumerate(predicted):
+            if p in actual and p not in predicted[:i]:
+                num_hits += 1.0
+
+        if not actual:
+            return 0.0
+
+        return num_hits / min(len(actual), k)
 
     recall = np.mean(list(map(calc_recall, predicted, actual)))
     return recall
@@ -138,9 +82,7 @@ for user in user_actual:
         predict_list.append(user_pred[user])
 
 
-
-print(f"map@10 : {mapk(actual_list, predict_list, 10)}")
-print(f"ap@10 : {precision(actual_list, predict_list, 10)}")
+print(f"   map@10 : {mapk(actual_list, predict_list, 10)}")
 print(f"recall@10 : {recall(actual_list, predict_list, 10)}")
-print(f"ndcg@10 : {ndcg(actual_list, predict_list, 10)}")
+#print(f"ndcg@10 : {ndcg(actual_list, predict_list)}")
 
