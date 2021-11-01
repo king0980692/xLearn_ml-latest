@@ -34,23 +34,13 @@ with open(args.input, 'r') as f:
 
         if int(time) < time_cut:
             train_all_edges.append(f"u{uid}\t{iid}\t{rate}")
-            if float(rate) > 3.:
-                train_edges.append(f"u{uid}\t{iid}\t{rate}")
         else:
             test_all_edges.append(f"u{uid}\t{iid}\t{rate}")
-            if float(rate) > 3.:
-                test_edges.append(f"u{uid}\t{iid}\t{rate}")
 
-with open('./exp/ml.train', 'w') as f:
-    f.write('\n'.join(train_edges))
-    f.write('\n')
-with open('./exp/ml.test', 'w') as f:
-    f.write('\n'.join(test_edges))
-    f.write('\n')
-with open('./exp/ml2.train', 'w') as f:
+with open('./data/ml.train', 'w') as f:
     f.write('\n'.join(train_all_edges))
     f.write('\n')
-with open('./exp/ml2.test', 'w') as f:
+with open('./data/ml.test', 'w') as f:
     f.write('\n'.join(test_all_edges))
     f.write('\n')
 

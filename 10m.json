@@ -1,7 +1,7 @@
 {
     "train": {
-        "input": "./data/ml-10M100K/ml2.train",
-        "output": "./exp/ml2.train",
+        "input": "./data/ml.train",
+        "output": "./exp/ml.train",
         "cached": true,
         "seperator": "\t",
         "header": false,
@@ -22,8 +22,8 @@
         ]
     },
     "test": {
-        "input": "./data/ml-10M100K/ml2.test",
-        "output": "./exp/ml2.test",
+        "input": "./data/ml.test",
+        "output": "./exp/ml.test",
         "cached": true,
         "seperator": "\t",
         "header": false,
