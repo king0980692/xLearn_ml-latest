@@ -1,0 +1,46 @@
+{
+    "train": {
+        "input": "./data/ml-100k/ua.base",
+        "output": "./exp/ml.train",
+        "cached": true,
+        "seperator": "\t",
+        "header": false,
+        "sparse": false,
+        "target_columns": [
+            {
+                "index": 0,
+                "type": "cat"
+            },
+            {
+                "index": 1,
+                "type": "cat"
+            },
+            {
+                "index": 2,
+                "type": "truth"
+            }
+        ]
+    },
+    "test": {
+        "input": "./data/ml-100k/ua.test",
+        "output": "./exp/ml.test",
+        "cached": true,
+        "seperator": "\t",
+        "header": false,
+        "sparse": false,
+        "target_columns": [
+            {
+                "index": 0,
+                "type": "cat"
+            },
+            {
+                "index": 1,
+                "type": "cat"
+            },
+            {
+                "index": 2,
+                "type": "truth"
+            }
+        ]
+    }
+}
