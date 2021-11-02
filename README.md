@@ -13,6 +13,19 @@ git clone --recurse-submodules git@github.com:king0980692/xLearn_ml-latest.git
 ```
 
 ### Prerequisites
+
+#### pip
+using venv
+```bash
+python3 -m venv xlearn_ml
+source xlearn_ml/bin/activate
+```
+
+```bash
+pip install -r requirements.txt
+```
+
+#### poetry
 using python version: 3.8.1
 ```bash
 pyenv local 3.8.1
