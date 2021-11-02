@@ -45,10 +45,42 @@ unzip ./data/ml-100k.zip -d ./data
 
 we will create the libsvm format training data, and the all pairs of user and item test data to predict the probability.
 
-
 ```bash
 python3 ./encoderder/encoderder.py -c ./100k.json
 ```
+training file:
+```bash
+$ head ./exp/ml.train
+
+5 1:1  944:1
+3 1:1  1736:1
+4 1:1  1847:1
+3 1:1  1958:1
+3 1:1  2069:1
+5 1:1  2180:1
+4 1:1  2291:1
+1 1:1  2402:1
+5 1:1  2513:1
+3 1:1  945:1
+```
+
+
+all_pair file:
+``` bash
+$ head ./exp/ml.test.all_pair
+1:1 944:1
+1:1 945:1
+1:1 946:1
+1:1 947:1
+1:1 948:1
+1:1 949:1
+1:1 950:1
+1:1 951:1
+1:1 952:1
+1:1 953:1
+
+```
+
 
 #### 100k.json
 this is a json file for encoderder to generate the sparse format of datast, it will look like :
@@ -90,20 +122,34 @@ there some important points need to illustrate :
 
 
 ### Training and Testing
+using above training file to train and predict the probability of all pair 
 
 ```bash
-
 python3 train_predict.py --train ./exp/ml.train --test ./exp/ml.test.all_pair --output ./result/output.txt
 ```
 
 ### Generate the user pred pickle
+Generate the user prediction based on the test file's user .
 
 ```bash
 python3 gen_user_pred.py --score_file ./result/output.txt --truth_file ./exp/ml.test.all_pair
 ```
+above command will generate a pickle file at `./result/user_pred.pkl`, which is a python dict structure.
+It collect all user's prediction result, its format will look like:
+
+```python
+print(user_pred[1])
+
+'''
+output will look like 
+[('1101',4.78123),('312',4.18312),....]
+'''
+```
 
 
 ### Evaluation
+
+Final, read the pickle file and use the actual file to evaluate the predicton result.
 
 ```bash
 python3 eval.py --predict ./result/user_pred_dict.pkl --truth ./exp/ml.test
@@ -113,8 +159,8 @@ python3 eval.py --predict ./result/user_pred_dict.pkl --truth ./exp/ml.test
 
 |         | MAP@10    |
 | ------- | --------- |
+| ml-latest | 0.006496 |
 | ml-100k | 0.0036496 |
 | ml-10m  | 0.0023612 |
-| ml-latest | 0.00149631 |
 
 
