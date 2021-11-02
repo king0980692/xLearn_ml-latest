@@ -33,21 +33,24 @@ def mapk(actual, predicted, k=10):
     return np.mean([apk(a,p,k) for a,p in zip(actual, predicted)])
 
 
-
 def recall(actual, predicted, k):
     def calc_recall(predicted, actual):
         score = 0.0
-        num_hits = 0.0
+        num_hits = 0
 
         for i,p in enumerate(predicted):
             if p in actual and p not in predicted[:i]:
-                num_hits += 1.0
+                num_hits += 1
 
-        if not actual:
+        if not num_hits:
             return 0.0
 
-        return num_hits / min(len(actual), k)
+        for i in range(num_hits,1):
+            score += 1.0/num_hits
 
+        return score
+
+    print(list(map(calc_recall, predicted, actual)))
     recall = np.mean(list(map(calc_recall, predicted, actual)))
     return recall
 
@@ -83,6 +86,6 @@ for user in user_actual:
 
 
 print(f"   map@10 : {mapk(actual_list, predict_list, 10)}")
-print(f"recall@10 : {recall(actual_list, predict_list, 10)}")
+#print(f"recall@10 : {recall(actual_list, predict_list, 10)}")
 #print(f"ndcg@10 : {ndcg(actual_list, predict_list)}")
 
