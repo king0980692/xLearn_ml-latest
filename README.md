@@ -113,8 +113,8 @@ python3 eval.py --predict ./result/user_pred_dict.pkl --truth ./exp/ml.test
 
 |         | MAP@10    |
 | ------- | --------- |
-| ml-latest | 0.006496 |
 | ml-100k | 0.0036496 |
 | ml-10m  | 0.0023612 |
+| ml-latest | 0.001496 |
 
 
