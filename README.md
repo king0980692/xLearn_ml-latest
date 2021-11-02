@@ -131,27 +131,19 @@ python3 train_predict.py --train ./exp/ml.train --test ./exp/ml.test.all_pair --
 ### Generate the user pred pickle
 Generate the user prediction based on the test file's user .
 
-**example:**
-
-```bash
-$ head ./exp/ml.test
-4 1:1  1300:1
-4 1:1  1442:1
-4 1:1  1718:1
-3 1:1  1072:1
-2 1:1  1240:1
-4 1:1  1249:1
-5 1:1  1269:1
-3 1:1  1287:1
-5 1:1  1303:1
-4 1:1  1371:1
-```
-
-we user ID 1 to query the prediction probability and store the them into **user_pred.pkl** pickle file
-
-
 ```bash
 python3 gen_user_pred.py --score_file ./result/output.txt --truth_file ./exp/ml.test.all_pair
+```
+above command will generate a pickle file at `./result/user_pred.pkl`, which is a python dict structure.
+It collect all user's prediction result, its format will look like:
+
+```python
+print(user_pred[1])
+
+'''
+output will look like 
+[('1101',4.78123),('312',4.18312),....]
+'''
 ```
 
 
