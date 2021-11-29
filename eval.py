@@ -84,8 +84,22 @@ for user in user_actual:
         actual_list.append(user_actual[user])
         predict_list.append(user_pred[user])
 
+def precision_v2(actual, predicted, k):
+    act_set = set(actual)
+    pred_set = set(predicted[:k])
+    result = len(act_set & pred_set) / float(k)
+    return result
+    return np.mean([apk(a,p,k) for a,p in zip(actual, predicted)])
+
+def recall_v2(actual, predicted, k):
+    act_set = set(actual)
+    pred_set = set(predicted[:k])
+    result = len(act_set & pred_set) / float(len(act_set))
+    return result
 
 print(f"   map@10 : {mapk(actual_list, predict_list, 10)}")
+#print(f"   map_v2@10 : {precision_v2(actual_list, predict_list, 10)}")
+#print(f"   recall_v2@10 : {recall_v2(actual_list, predict_list, 10)}")
 #print(f"recall@10 : {recall(actual_list, predict_list, 10)}")
 #print(f"ndcg@10 : {ndcg(actual_list, predict_list)}")
 
