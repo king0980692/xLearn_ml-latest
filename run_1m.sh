@@ -1,8 +1,8 @@
 #mkidr ./data
-#wget https://files.grouplens.org/datasets/movielens/ml-100k.zip -P ./data
-#unzip ./data/ml-100k.zip -d ./data
+#wget https://files.grouplens.org/datasets/movielens/ml-1m.zip -P ./data
+#unzip ./data/ml-1m.zip -d ./data
 
-python3 split.py --input ./data/ml-10M100K/ratings.dat --sep ::
+python3 split.py --input ./data/ml-1m/ratings.dat --sep ::
 
 python3 ./encoderder/encoderder.py -c ./100k.json
 
