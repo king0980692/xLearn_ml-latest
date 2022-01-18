@@ -10,6 +10,9 @@ args = parser.parse_args()
 # Training task
 fm_model = xl.create_fm()  # Use factorization machine
 fm_model.setTrain(args.train)    # Training data
+fm_model.setOnDisk()   #  Set xlearn to use on-disk training.
+fm_model.setTXTModel('./exp/model.txt')
+
 
 # param:
 #  0. regression task
@@ -24,8 +27,8 @@ param = {'task':'reg', 'lr':0.25, 'k':40, 'epoch':50,
 fm_model.fit(param, './exp/model.out')
 
 # Prediction task
-fm_model.setTest(args.test)  # Test data
+#fm_model.setTest(args.test)  # Test data
 
 # Start to predict
 # The output result will be stored in output.txt
-fm_model.predict("./exp/model.out",args.output)
+#fm_model.predict("./exp/model.out",args.output)

@@ -1,0 +1,46 @@
+{
+    "train": {
+        "input": "./data/ml.train",
+        "output": "./exp/ml.train",
+        "cached": false,
+        "seperator": "\t",
+        "header": false,
+        "sparse": false,
+        "target_columns": [
+            {
+                "index": 0,
+                "type": "cat"
+            },
+            {
+                "index": 1,
+                "type": "cat"
+            },
+            {
+                "index": 2,
+                "type": "truth"
+            }
+        ]
+    },
+    "test": {
+        "input": "./data/ml.test",
+        "output": "./exp/ml.test",
+        "cached": false,
+        "seperator": "\t",
+        "header": false,
+        "sparse": false,
+        "target_columns": [
+            {
+                "index": 0,
+                "type": "cat"
+            },
+            {
+                "index": 1,
+                "type": "cat"
+            },
+            {
+                "index": 2,
+                "type": "truth"
+            }
+        ]
+    }
+}
