@@ -5,8 +5,9 @@ import itertools
 def read_wei(file):
 
     bias = -1
-    first_ord_wei = [0]
-    second_ord_wei = [0]
+    ori_wei = [0]
+    first_ord_wei = []
+    second_ord_wei = []
     with open(file, 'r') as f:
         bias = float(f.readline().rstrip().split()[-1])
 
@@ -25,19 +26,54 @@ def read_wei(file):
 def emb_score(uid, iid, bias, first_ord, second_ord):
 
     pred = bias
-    pred += first_ord[uid]
-    pred += first_ord[iid]
 
-    pred += np.dot(second_ord[uid],second_ord[iid])
+    
+    norm = 0.5
+
+    pred += (first_ord[uid])*np.sqrt(norm)
+    pred += (first_ord[iid])*np.sqrt(norm)
+
+
+    #print("first : ",pred)
+    pred += np.dot(second_ord[uid]*norm,second_ord[iid]*norm)
+
+    #print("second : ",np.dot(second_ord[uid],second_ord[iid]))
 
     return pred
 
 
+def read_test(test_file,bias, first_ord, second_ord):
+
+    with open(test_file, 'r') as f:
+
+        out_list = []
+        for line in f:
+            pred = bias
+            line = line.rstrip().split()
+            u_id, u_val = line[0].split(":")
+            i_id, i_val = line[1].split(":")
+
+            u_id = int(u_id)
+            u_val = float(u_val)
+            i_id = int(i_id)
+            i_val = float(i_val)
+            
+            norm = 1 / (u_val*u_val + i_val*i_val)
+
+
+            pred += first_ord[u_id]*u_val*np.sqrt(norm)
+            pred += first_ord[i_id]*i_val*np.sqrt(norm)
+
+            pred += np.dot(second_ord[u_id],second_ord[i_id])
+
 
 if __name__ == '__main__':
-    wei_file ,out_file = sys.argv[1:]
+    wei_file, test_file ,out_file = sys.argv[1:]
 
     bias, first_ord_wei, second_ord_wei = read_wei(wei_file)
+    #print(emb_score(1,944,bias,first_ord_wei,second_ord_wei))
+
+    #read_test(test_file,bias, first_ord_wei, second_ord_wei)
 
     with  open(out_file,'w') as o:
         cnt = 0
